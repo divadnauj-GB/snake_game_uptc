@@ -38,10 +38,10 @@ async def test_project(dut):
     butt3=button_sim(dut.clk,dut.butt3)
     butt4=button_sim(dut.clk,dut.butt4)
 
-    await ClockCycles(dut.clk, 13000000)
+    await ClockCycles(dut.clk, 7000000)
     model.print_framebuffer()
     await butt4.update(1)
-    await ClockCycles(dut.clk, 12000000)
+    await ClockCycles(dut.clk, 5500000)
     """
     model.print_framebuffer()
     await ClockCycles(dut.clk, 50000)
@@ -79,4 +79,12 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 50000)
     """
     model.print_framebuffer()
+
+    with open("matrix_gold.txt","r") as Gfp:
+        expected_output=Gfp.readlines()
+#
+    with open("matrix.txt","r") as Rfp:
+        sim_output=Rfp.readlines()
+#
+    assert(expected_output==sim_output)
 
