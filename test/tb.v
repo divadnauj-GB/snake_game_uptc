@@ -13,6 +13,15 @@ module tb ();
     #1;
   end
 
+  reg sck;
+  reg cs;
+  reg din;
+  reg dout;
+  reg butt1;
+  reg butt2;
+  reg butt3;
+  reg butt4;
+
   // Wire up the inputs and outputs:
   reg clk;
   reg rst_n;
@@ -28,7 +37,7 @@ module tb ();
 `endif
 
   // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  tt_um_snake user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
@@ -45,5 +54,12 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
+
+always @(*) begin
+  din = uo_out[0];
+  sck = uo_out[1];
+  cs = uo_out[2];
+  ui_in[3:0] = {butt4,butt3,butt2,butt1};
+end
 
 endmodule

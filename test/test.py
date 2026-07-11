@@ -4,37 +4,79 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
-
+from max7219.max7219 import MAX72xxModel, MAX7219_composed, Signal
+from max7219.push_button import button_sim
 
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
 
     # Set the clock period to 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, unit="us")
+    clock = Clock(dut.clk, 100, unit="ns")
     cocotb.start_soon(clock.start())
 
-    # Reset
-    dut._log.info("Reset")
     dut.ena.value = 1
-    dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
+    dut.cs.value = 1
+
+
+    dout = Signal(0)
+    model = MAX7219_composed(
+        dut.sck,
+        dut.cs,
+        dut.din,
+        dout,
+        file="matrix.txt"
+    )
+    
+    await ClockCycles(dut.clk, 60)
     dut.rst_n.value = 1
+    cocotb.start_soon(model.start())
+    butt1=button_sim(dut.clk,dut.butt1)
+    butt2=button_sim(dut.clk,dut.butt2)
+    butt3=button_sim(dut.clk,dut.butt3)
+    butt4=button_sim(dut.clk,dut.butt4)
 
-    dut._log.info("Test project behavior")
+    await ClockCycles(dut.clk, 20000000)
+    model.print_framebuffer()
+    await butt4.update(1)
+    await ClockCycles(dut.clk, 30000000)
+    """
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    model.print_framebuffer()
+    await ClockCycles(dut.clk, 50000)
+    """
+    model.print_framebuffer()
 
-    # Set the input values you want to test
-    dut.ui_in.value = 20
-    dut.uio_in.value = 30
-
-    # Wait for one clock cycle to see the output values
-    await ClockCycles(dut.clk, 1)
-
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    assert dut.uo_out.value == 50
-
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.

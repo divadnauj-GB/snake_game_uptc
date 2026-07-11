@@ -6,13 +6,19 @@ SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
+
+VERILOG_SOURCES += $(SRC_DIR)/project.v
 
 ifneq ($(GATES),yes)
 
 # RTL simulation:
 SIM_BUILD				= sim_build/rtl
-VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
+#VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
+VERILOG_SOURCES += $(SRC_DIR)/debounce.v
+VERILOG_SOURCES += $(SRC_DIR)/game_core_seq.v
+VERILOG_SOURCES += $(SRC_DIR)/seven_seg.v
+VERILOG_SOURCES += $(SRC_DIR)/snake_top2.v
+VERILOG_SOURCES += $(SRC_DIR)/spi_driver.v
 
 else
 
