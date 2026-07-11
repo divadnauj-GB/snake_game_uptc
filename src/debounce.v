@@ -1,4 +1,3 @@
-`timescale 1ns / 1ps
 
 module debounce #(
     parameter CLK_FREQ=10000000,
@@ -30,9 +29,9 @@ assign trigger = (counter == DEBOUNCE_TIME) ? 1'b1 : 1'b0;
 
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-        counter <= 32'd0;
+        counter <= 0;
     end else if (trigger == 1'b1) begin
-        counter <= 32'd0; // Hold the counter value
+        counter <= 0; // Hold the counter value
     end else begin
         counter <= counter + 1;
     end

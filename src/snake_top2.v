@@ -17,8 +17,8 @@ module snake_top(
     wire clean_key1;
     wire clean_key0;
 
-    reg [4:0] div_counter = 0;
-    reg slow_clk = 0;
+    reg [4:0] div_counter;
+    reg slow_clk;
 
     debounce buttUp (
         .clk(CLOCK_50),
@@ -54,8 +54,11 @@ module snake_top(
     // =======================================================
     
 
-    always @(posedge CLOCK_50) begin
-        if(div_counter == 5'd19) begin
+    always @(posedge CLOCK_50, negedge SW[0]) begin
+        if(!SW[0]) begin
+            div_counter <= 0;
+            slow_clk <= 0;
+        end else if(div_counter == 5'd19) begin
             div_counter <= 0;
             slow_clk <= 1;
         end

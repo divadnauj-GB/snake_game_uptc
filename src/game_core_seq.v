@@ -48,7 +48,7 @@ reg [1:0] h_dir;
 reg [3:0] h_x;
 reg [3:0] h_y;
 
-reg [1:0] t_dir;
+//reg [1:0] t_dir;
 reg [3:0] t_x;
 reg [3:0] t_y;
 
@@ -73,7 +73,7 @@ reg [7:0] mem_addr_reg;
 reg [2:0] mem_sel_addr;
 
 reg timer_flag;
-reg [1:0] prev_dir;
+
 
 /*FSM*/
 always @(posedge clk_50, negedge reset_n) begin
@@ -90,7 +90,7 @@ always @(*) begin
             next_state = NEW_FOOD;
         end
         WAIT_TRIGGER: begin
-            if (timer_flag|| (h_dir!=dir) ) begin
+            if (timer_flag) begin
                 next_state = UPDATE_HEAD;
             end else begin
                 next_state = WAIT_TRIGGER;
@@ -709,10 +709,10 @@ always @(posedge clk_50, negedge reset_n) begin
     if (!reset_n) begin
         h_x <= 0;
         h_y <= 0;
-        h_dir <= 0;
+        //h_dir <= 0;
         edge_collide <= 0;
     end else begin
-        h_dir <= dir;
+        //h_dir <= dir;
         if(update_head) begin
             case (h_dir)
                 2'b00: begin
@@ -969,16 +969,18 @@ always @(posedge clk_50, negedge reset_n) begin
     if(!reset_n) begin
         timer_count <= 0;
         timer_flag <= 1'b0;
+        h_dir <= 0;
     end else begin
         if (slow_clk) begin
-            if (timer_count==(20'd250000-1)) begin
+            if (timer_count==(20'd250000-1) || (h_dir!=dir)) begin
                 timer_count <= 0;
                 timer_flag <= 1'b1;
             end else begin
                 timer_count <= timer_count + 1;
                 timer_flag <= 1'b0;
             end
-        end
+            h_dir <= dir;
+        end 
     end
 end
 

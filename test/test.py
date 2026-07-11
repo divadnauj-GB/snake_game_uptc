@@ -38,10 +38,10 @@ async def test_project(dut):
     butt3=button_sim(dut.clk,dut.butt3)
     butt4=button_sim(dut.clk,dut.butt4)
 
-    await ClockCycles(dut.clk, 20000000)
+    await ClockCycles(dut.clk, 13000000)
     model.print_framebuffer()
     await butt4.update(1)
-    await ClockCycles(dut.clk, 30000000)
+    await ClockCycles(dut.clk, 12000000)
     """
     model.print_framebuffer()
     await ClockCycles(dut.clk, 50000)

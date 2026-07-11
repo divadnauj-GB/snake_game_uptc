@@ -11,17 +11,17 @@ module spi_driver(
     output MAX_CS
 );
 
-    reg din_reg = 0;
-    reg clk_reg = 0;
+    reg din_reg;
+    reg clk_reg;
 
 
     assign MAX_DIN = din_reg;
     assign MAX_CLK = clk_reg;
     assign MAX_CS  = spi_enable;
 
-    reg [15:0] shift_reg = 0;
-    reg [5:0] bit_count = 0;
-    reg [2:0] state = 0;
+    reg [15:0] shift_reg;
+    reg [5:0] bit_count;
+    reg [2:0] state;
 
     always @(posedge clk_50, negedge reset_n) begin
         if (!reset_n) begin
