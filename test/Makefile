@@ -7,13 +7,13 @@ FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
 
-VERILOG_SOURCES += $(SRC_DIR)/project.v
 
 ifneq ($(GATES),yes)
 
 # RTL simulation:
 SIM_BUILD				= sim_build/rtl
 #VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
+VERILOG_SOURCES += $(SRC_DIR)/project.v
 VERILOG_SOURCES += $(SRC_DIR)/debounce.v
 VERILOG_SOURCES += $(SRC_DIR)/game_core_seq.v
 VERILOG_SOURCES += $(SRC_DIR)/seven_seg.v
