@@ -89,11 +89,12 @@ end
 
     wire eating_food = (next_head_x == food_x) && (next_head_y == food_y);
     wire [15:0] rom_init_dat = init_rom[read_ptr[2:0]];
-
+    integer i;
     // Write operation
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            head_ptr <= '0;
+            head_ptr <= 5'd0;
+            snake[0] <= 0;
         end else begin
             if (wr_en && !full) begin
                 snake[head_ptr] <= {head_y,head_x};
@@ -105,7 +106,7 @@ end
     // Read operation
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            tail_ptr <= '0;
+            tail_ptr <= 5'd0;
         end else begin
             if (rd_en && !empty) begin
                 tail_ptr <= tail_ptr + 5'b1;
@@ -185,6 +186,7 @@ end
 
                 STATE_IDLE: begin
                     wr_en <= 0;
+                    matrix_valid <= 0;
                     if ((head_dir!=user_dir) || (game_tick && !game_over)) begin
                         // Enforce 180-degree blind-turn restriction safety locks
                         if ((user_dir == ABS_UP    && head_dir != ABS_DOWN)  ||
@@ -211,7 +213,7 @@ end
                         state     <= STATE_IDLE;
                     end 
                     // 2. Self-Collision Check via single-cycle lookups
-                    else if (snake_rdat=={next_head_y,next_head_x} 
+                    else if (snake_rdat=={next_head_y,next_head_x}
                     //||   (next_head_x == tail_x && next_head_y == tail_y)
                     ) begin
                         game_over <= 1'b1;
