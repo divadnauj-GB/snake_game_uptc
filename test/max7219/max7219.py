@@ -157,14 +157,18 @@ class MAX7219_composed:
         """Print the current state of the 16x16 framebuffer."""
         self.get_framebuffer()
         data=[]
+        print("================\n")
         for row in self.framebuffer:
             pixel_frame = ''.join(str(pixel) for pixel in row)
             pixel_frame = pixel_frame.replace('0', ' ').replace('1', '█')
             data.append(pixel_frame)
             print(pixel_frame)
+        print("================\n")
         #dumps the content of the buffer into a txtfile
         if isinstance(self.file, str):
             with open(self.file,'a') as fp:
-                fp.write(f"\n\n")
+                #fp.write(f"\n\n")
+                fp.write("================\n")
                 for line in data:
                     fp.write(f"{line}\n")
+                fp.write("================\n")

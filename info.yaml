@@ -19,10 +19,10 @@ project:
   source_files:
     - "project.v"
     - "debounce.v"
-    - "game_core_seq.v"
+    - "game_core_seq3.v"
     - "seven_seg.v"
-    - "snake_top2.v"
-    - "spi_driver.v"
+    - "snake_top3.v"
+    - "spi_driver2.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).

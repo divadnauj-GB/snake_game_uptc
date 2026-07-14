@@ -6,8 +6,8 @@ module game_core(
     input  spi_finish,
     output reg spi_start,
     output reg spi_enable,
-    output wire game_over,
-    output wire [4:0] snake_len, 
+    output reg game_over,
+    output reg [7:0] snake_len, 
     output reg [15:0] dynamic_command
 );
 
@@ -244,7 +244,7 @@ always @(*) begin
             new_food = 0;
             mem_sel_addr = 3'b011;
             display_game = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b1;
@@ -257,7 +257,7 @@ always @(*) begin
             new_food = 0;
             mem_sel_addr = 3'b000;
             display_game = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -270,7 +270,7 @@ always @(*) begin
             new_food = 0;
             mem_sel_addr = 3'b000;
             display_game = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b1;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -283,7 +283,7 @@ always @(*) begin
             new_food = 0;
             mem_sel_addr = 3'b000;
             display_game = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -298,7 +298,7 @@ always @(*) begin
                 new_food = 0;
                 mem_sel_addr = 3'b000;
                 display_game = 1'b0;
-                
+                game_over = 0;
                 update_head = 1'b0;
                 update_tail = 1'b0;
                 mem_wr       = 1'b1;
@@ -310,7 +310,7 @@ always @(*) begin
                 new_food = 0;
                 mem_sel_addr = 3'b000;
                 display_game = 1'b0;
-                
+                game_over = 0;
                 update_head = 1'b0;
                 update_tail = 1'b0;
                 mem_wr       = 1'b1;
@@ -323,7 +323,7 @@ always @(*) begin
                     new_food = 0;
                     mem_sel_addr = 3'b000;
                     display_game = 1'b0;
-                    
+                    game_over = 0;
                     update_head = 1'b0;
                     update_tail = 1'b0;
                     mem_wr       = 1'b0;
@@ -335,7 +335,7 @@ always @(*) begin
                     new_food = 0;
                     mem_sel_addr = 3'b000;
                     display_game = 1'b0;
-                    
+                    game_over = 0;
                     update_head = 1'b0;
                     update_tail = 1'b0;
                     mem_wr       = 1'b1;
@@ -351,7 +351,7 @@ always @(*) begin
             new_food = 0;
             mem_sel_addr = 3'b000;
             display_game = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -364,7 +364,7 @@ always @(*) begin
             new_food = 0;
             mem_sel_addr = 3'b000;
             display_game = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -377,7 +377,7 @@ always @(*) begin
             new_food = 1;
             mem_sel_addr = 3'b010;
             display_game = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -391,7 +391,7 @@ always @(*) begin
                 new_food      = 0;
                 mem_sel_addr  = 3'b010;
                 display_game   = 1'b0;
-                
+                game_over = 0;
                 update_head   = 1'b0;
                 update_tail   = 1'b0;
                 mem_wr        = 1'b0;
@@ -403,7 +403,7 @@ always @(*) begin
                 new_food      = 0;
                 mem_sel_addr  = 3'b010;
                 display_game   = 1'b0;
-                
+                game_over = 0;
                 update_head   = 1'b0;
                 update_tail   = 1'b0;
                 mem_wr        = 1'b1;
@@ -418,6 +418,7 @@ always @(*) begin
             new_venom = 1;
             mem_sel_addr = 3'b011;
             display_game = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -430,6 +431,7 @@ always @(*) begin
             new_venom = 0;
             mem_sel_addr = 3'b011;
             display_game = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -442,6 +444,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b001;
             display_game  = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b1;
@@ -454,6 +457,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             mem_wr       = 1'b0;
             mem_wdata    = 1'b0;
@@ -470,7 +474,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             mem_wr       = 1'b0;
             mem_wdata    = 1'b0;
@@ -487,6 +491,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             mem_wr       = 1'b0;
             mem_wdata    = 1'b0;
@@ -503,6 +508,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             mem_wr       = 1'b0;
             mem_wdata    = 1'b0;
@@ -519,6 +525,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b001;
             display_game  = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b1;
@@ -531,6 +538,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             mem_wr       = 1'b0;
             mem_wdata    = 1'b0;
@@ -547,7 +555,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             mem_wr       = 1'b0;
             mem_wdata    = 1'b0;
@@ -564,7 +572,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             mem_wr       = 1'b0;
             mem_wdata    = 1'b0;
@@ -581,7 +589,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
-            
+            game_over = 0;
             update_head = 1'b0;
             mem_wr       = 1'b0;
             mem_wdata    = 1'b0;
@@ -599,7 +607,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b100;
             display_game  = 1'b1;
-            
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -613,7 +621,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
-            
+            game_over = 1;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -626,6 +634,7 @@ always @(*) begin
             new_venom    = 0;
             mem_sel_addr = 3'b101;
             display_game  = 1'b0;
+            game_over = 0;
             update_head = 1'b0;
             update_tail = 1'b0;
             mem_wr       = 1'b0;
@@ -752,6 +761,31 @@ always @(posedge clk_50, negedge reset_n) begin
         end 
     end
 end
+
+always @(posedge clk_50, negedge reset_n) begin
+    if(!reset_n) begin
+        snake_len <= 0;
+    end else begin
+        if (new_food) begin
+            if (snake_len[3:0]<9) begin
+                snake_len[3:0] <= snake_len[3:0] + 1;
+            end else begin
+                snake_len[3:0] <= 0;
+                snake_len[7:0] <= snake_len[7:0] + 1;
+            end
+        end
+        if (new_venom ) begin
+            if (snake_len[3:0]>0) begin
+                snake_len[3:0] <= snake_len[3:0] - 1;
+            end else begin
+                snake_len[3:0] <= 9;
+                snake_len[7:0] <= snake_len[7:0] - 1;
+            end
+        end
+        
+    end
+end
+
 
 /*
 always @(posedge clk_50, negedge reset_n) begin
@@ -972,7 +1006,7 @@ always @(posedge clk_50, negedge reset_n) begin
         h_dir <= 0;
     end else begin
         if (slow_clk) begin
-            if (timer_count==(20'd250000-1) || (h_dir!=dir)) begin
+            if (timer_count==(20'd500000-1) || (h_dir!=dir)) begin
                 timer_count <= 0;
                 timer_flag <= 1'b1;
             end else begin
@@ -986,7 +1020,7 @@ end
 
 
 //assign dynamic_command = 0;
-assign game_over = 0;
-assign snake_len = 0;
+//assign game_over = 0;
+//assign snake_len = 0;
 
 endmodule

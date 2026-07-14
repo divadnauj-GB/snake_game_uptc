@@ -19,6 +19,10 @@ module snake_top(
 
     reg [3:0] div_counter;
     reg slow_clk;
+    wire set_timer;
+    reg [19:0] timer_period;
+
+    
 
     debounce buttUp (
         .clk(CLOCK_50),
@@ -58,7 +62,7 @@ module snake_top(
         if(!SW[0]) begin
             div_counter <= 0;
             slow_clk <= 0;
-        end else if(div_counter == 4'd9) begin
+        end else if(div_counter == 4'd9) begin // 10Mhz/10
             div_counter <= 0;
             slow_clk <= 1;
         end
@@ -68,6 +72,32 @@ module snake_top(
         end
     end
 
+    reg [19:0] timer_count;
+    reg game_tick;
+    always @(posedge CLOCK_50, negedge SW[0]) begin
+        if(!SW[0]) begin
+            timer_count <= 0;
+            timer_period <= (20'd500000-1);
+            game_tick <= 1'b0;
+        end else begin
+            if (slow_clk) begin
+                //if (timer_count[20]) begin
+                //if (timer_count[13]) begin
+                if (timer_count==timer_period) begin
+                    timer_count <= 0;
+                    game_tick <= 1'b1;
+                end else begin
+                    timer_count <= timer_count + 20'd1;
+                    game_tick <= 1'b0;
+                end
+            end else begin
+                game_tick <= 1'b0;
+            end
+            if (set_timer) begin
+                timer_period <= timer_period - 20'd16384;
+            end
+        end
+    end
 
     
 
@@ -75,59 +105,43 @@ module snake_top(
     // --- REGISTRO Y CONTROL DE DIRECCIÓN SEGURO ---
     // =======================================================
     reg [1:0] dir;
-    
-    // Usamos lógica síncrona usando el reloj y el SW0 limpio
-    /*
-    always @(posedge CLOCK_50, negedge SW[0]) begin
-        if (!SW[0]) begin
-            dir <= 2'b00; // Al resetear, la serpiente apunta a la derecha
-        end else begin
-            // Derecha (No permite cambiar si vas a la Izquierda)
-            if (!clean_key1 && (dir != 2'b01))      dir <= 2'b00; 
-            // Izquierda (No permite cambiar si vas a la Derecha)
-            else if (!clean_key0 && (dir != 2'b00)) dir <= 2'b01; 
-            // Arriba (No permite cambiar si vas Abajo)
-            else if (!clean_key3 && (dir != 2'b11)) dir <= 2'b10; 
-            // Abajo (No permite cambiar si vas Arriba)
-            else if (!clean_key2 && (dir != 2'b10)) dir <= 2'b11;
-        end
-    end
-    */
 
     always @(posedge CLOCK_50, negedge SW[0]) begin
         if (!SW[0]) begin
-            dir <= 2'b00; // Al resetear, la serpiente apunta a la derecha
+            dir <= 2'b11; // Al resetear, la serpiente apunta a la derecha
         end else begin
             // Derecha (No permite cambiar si vas a la Izquierda)
-            if (!clean_key1)      dir <= 2'b00; 
+            if (!clean_key1)      dir <= 2'b11; 
             // Izquierda (No permite cambiar si vas a la Derecha)
-            else if (!clean_key0 ) dir <= 2'b01; 
+            else if (!clean_key0 ) dir <= 2'b10; 
             // Arriba (No permite cambiar si vas Abajo)
-            else if (!clean_key3) dir <= 2'b10; 
+            else if (!clean_key3) dir <= 2'b01; 
             // Abajo (No permite cambiar si vas Arriba)
-            else if (!clean_key2) dir <= 2'b11;
+            else if (!clean_key2) dir <= 2'b00;
         end
     end
 
     wire [15:0] current_command;
     wire game_over_signal;
-    wire [4:0] current_score;
+    wire [7:0] current_score;
     wire spi_enable, spi_start, spi_finish;
     // =======================================================
     // --- INSTANCIACIÓN DE MÓDULOS ---
     // =======================================================
     game_core juego (
-        .clk_50(CLOCK_50),
-        .reset_n(SW[0]), // Conectado al Switch 0 limpio
-        .slow_clk(slow_clk),
-        .dir(dir),
-        .spi_finish(spi_finish),
-        .spi_start(spi_start),
-        .spi_enable(spi_enable),
+        .clk(CLOCK_50),
+        .rst_n(SW[0]), // Conectado al Switch 0 limpio
+        .game_tick(game_tick),
+        .user_dir(dir),
+        .matrix_ready(spi_finish),
+        .matrix_valid(spi_enable),
+        .matrix_data(current_command),
         .game_over(game_over_signal),
-        .snake_len(current_score),
-        .dynamic_command(current_command)
+        .set_timer(set_timer),
+        .score_out(current_score)
     );
+
+
 
     spi_driver pantalla (
         .clk_50(CLOCK_50),
@@ -135,7 +149,6 @@ module snake_top(
         .slow_clk(slow_clk),
         .dynamic_command(current_command),
         .spi_enable(spi_enable),
-        .spi_start(spi_start),
         .spi_finish(spi_finish),
         .MAX_DIN(MAX_DIN),
         .MAX_CLK(MAX_CLK),
