@@ -15,10 +15,10 @@ SIM_BUILD				= sim_build/rtl
 #VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
 VERILOG_SOURCES += $(SRC_DIR)/project.v
 VERILOG_SOURCES += $(SRC_DIR)/debounce.v
-VERILOG_SOURCES += $(SRC_DIR)/game_core_seq.v
+VERILOG_SOURCES += $(SRC_DIR)/game_core_seq3.v
 VERILOG_SOURCES += $(SRC_DIR)/seven_seg.v
-VERILOG_SOURCES += $(SRC_DIR)/snake_top2.v
-VERILOG_SOURCES += $(SRC_DIR)/spi_driver.v
+VERILOG_SOURCES += $(SRC_DIR)/snake_top3.v
+VERILOG_SOURCES += $(SRC_DIR)/spi_driver2.v
 
 else
 
