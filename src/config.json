@@ -13,7 +13,7 @@
 
   "//": "PL_TARGET_DENSITY_PCT - You can increase this if Global Placement fails with error GPL-0302.",
   "//": "Users have reported that values up to 80 worked well for them.",
-  "PL_TARGET_DENSITY_PCT": 60,
+  "PL_TARGET_DENSITY_PCT": 80,
 
   "//": "CLOCK_PERIOD - Increase this in case you are getting setup time violations.",
   "//": "The value is in nanoseconds, so 100ns == 10MHz.",
@@ -40,7 +40,7 @@
   "DESIGN_REPAIR_MAX_SLEW_PCT": 20,
   "DESIGN_REPAIR_MAX_CAP_PCT": 20,
 
-  "SYNTH_STRATEGY": "AREA 2",
+  "SYNTH_STRATEGY": "AREA 0",
 
   "//": "RUN_LINTER, LINTER_INCLUDE_PDK_MODELS - Disabling the linter is not recommended!",
   "RUN_LINTER": 1,
