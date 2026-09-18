@@ -168,7 +168,7 @@ end
                 STATE_RESET: begin
                     if (matrix_ready) begin
                         matrix_data  <= rom_init_dat;//row_accum;
-                        if (read_ptr==4'd5) begin
+                        if (read_ptr==5'd5) begin
                             state <= STATE_IDLE;
                         end else begin
                             if (delay_counter==4'd4) begin
@@ -415,7 +415,7 @@ always @(posedge clk, negedge rst_n) begin
                 score[3:0] <= score[3:0] + 4'd1;
             end else begin
                 score[3:0] <= 0;
-                score[7:0] <= score[7:0] + 4'd1;
+                score[7:4] <= score[7:4] + 4'd1;
             end
         end
         

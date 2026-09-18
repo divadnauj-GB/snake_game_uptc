@@ -32,7 +32,7 @@ module tt_um_snake (
       .HEX1(uio_out[3:0])
     );
 
-  assign uio_oe  = 8'b01111111;
+  assign uio_oe  = 8'b00001111;
   assign uio_out[7:4] = 4'b0000;
   assign uo_out[3] = 1'b0;
 
