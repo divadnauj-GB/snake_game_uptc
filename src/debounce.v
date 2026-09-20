@@ -20,25 +20,27 @@ output clean_signal;
 parameter DEBOUNCE_TIME=CLK_FREQ/(8*DEBOUNCE_FREQ);
 reg signed [$clog2(DEBOUNCE_TIME):0] counter;
 reg [7:0] shift_reg;
-//wire trigger;
+
 wire stable_high;
 wire stable_low;
 reg clean_signal_reg;
 
-//assign trigger = (counter == DEBOUNCE_TIME) ? 1'b1 : 1'b0;
-//
-//
-//
-//always @(posedge clk or negedge rst_n) begin
-//    if (!rst_n) begin
-//        counter <= 0;
-//    end else if (trigger == 1'b1) begin
-//        counter <= 0; // Hold the counter value
-//    end else begin
-//        counter <= counter + 1;
-//    end
-//end
+/*
+wire trigger;
+assign trigger = (counter == DEBOUNCE_TIME) ? 1'b1 : 1'b0;
 
+
+
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        counter <= 0;
+    end else if (trigger == 1'b1) begin
+        counter <= 0; // Hold the counter value
+    end else begin
+        counter <= counter + 1;
+    end
+end
+*/
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         shift_reg <= 8'd0;

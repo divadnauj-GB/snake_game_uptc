@@ -29,17 +29,19 @@ module game_core (
     localparam BR       = 2'b01;
     localparam BL       = 2'b00;
     // FSM State Encodings
-    localparam STATE_IDLE        = 4'b0000;
-    localparam STATE_MOVE_HEAD   = 4'b0001;
-    localparam STATE_MOVE_TAIL   = 4'b0010;
-    localparam STATE_RENDER_ROW  = 4'b0011;
-    localparam STATE_RENDER_TX   = 4'b0100;
-    localparam STATE_LOAD_MATRIX = 4'b0101;
+    
+    localparam STATE_RESET       = 4'b0000;
+    localparam STATE_IDLE        = 4'b0001;
+    localparam STATE_MOVE_HEAD   = 4'b0010;
+    localparam STATE_MOVE_TAIL   = 4'b0011;
+    localparam STATE_RENDER_ROW  = 4'b0100;
+    localparam STATE_RENDER_TX   = 4'b0101;
+    //localparam STATE_LOAD_MATRIX = 4'b0110;
     localparam STATE_WAIT_CS_DEL = 4'b0110;
     localparam UPDATE_FIFO       = 4'b0111;
     localparam READ_FIFO         = 4'b1000;
     localparam STATE_INIT_MATRIX = 4'b1001;
-    localparam STATE_RESET       = 4'b1010;
+    
 
     reg [15:0] init_rom [0:4];
 
@@ -142,7 +144,7 @@ end
         if (!rst_n) begin
             state        <= STATE_RESET;
             head_x       <= 4'd2;
-            head_y       <= 4'd7;
+            head_y       <= 4'd8;
             head_dir     <= ABS_RIGHT;
             //tail_x       <= 4'd2;
             //tail_y       <= 4'd7;
@@ -327,6 +329,7 @@ end
                         end
                     end 
                 end
+                /*
                 STATE_LOAD_MATRIX: begin
                     if (!matrix_ready) begin
                         matrix_valid <= 1'b1;
@@ -344,7 +347,7 @@ end
                         end
                         
                     end
-                end
+                end*/
                 STATE_WAIT_CS_DEL: begin
                     matrix_valid <= 1'b0;
                     if (matrix_ready) begin
@@ -396,8 +399,8 @@ end
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        food_x <= 3;
-        food_y <= 5;
+        food_x <= 4;
+        food_y <= 4;
     end else begin
         if(gen_food) begin
             food_x <= rnd_counter[7:4];

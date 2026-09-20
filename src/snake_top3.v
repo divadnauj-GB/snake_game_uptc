@@ -20,9 +20,10 @@ module snake_top(
     reg [3:0] div_counter;
     reg slow_clk;
     wire set_timer;
-    wire trigger;
+    
     reg [19:0] timer_period;
-
+    
+    wire trigger;
     localparam CLK_FREQ=10000000;
     localparam DEBOUNCE_FREQ=100000;
     localparam DEBOUNCE_TIME=CLK_FREQ/(8*DEBOUNCE_FREQ);
@@ -40,7 +41,7 @@ module snake_top(
             debounce_counter <= debounce_counter + 1;
         end
     end
-
+    
     debounce buttUp (
         .clk(CLOCK_10),
         .rst_n(SW[0]),
@@ -51,7 +52,7 @@ module snake_top(
     
     debounce buttDwn (
         .clk(CLOCK_10),
-        .rst_n(SW),
+        .rst_n(SW[0]),
         .trigger(trigger),
         .input_signal(KEY[2]),
         .clean_signal(clean_key2)
@@ -98,7 +99,7 @@ module snake_top(
     always @(posedge CLOCK_10, negedge SW[0]) begin
         if(!SW[0]) begin
             timer_count <= 0;
-            timer_period <= (20'd500000-1);
+            timer_period <= (20'd500000-20'd1); // 1Mhz/2 = 500000
             game_tick <= 1'b0;
         end else begin
             if (slow_clk) begin

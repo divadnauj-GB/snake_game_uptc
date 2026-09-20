@@ -16,8 +16,6 @@ module tt_um_snake (
     input  wire       rst_n
 );
 
-  wire [3:0] hex0_full;
-
   snake_top mi_snake_core (
       .CLOCK_10(clk),
       .SW(rst_n),
