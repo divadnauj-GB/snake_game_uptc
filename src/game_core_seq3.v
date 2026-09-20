@@ -403,8 +403,8 @@ end
 
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-        food_x <= 4;
-        food_y <= 4;
+        food_x <= 3;
+        food_y <= 7;
     end else begin
         if(gen_food) begin
             food_x <= rnd_counter[7:4];

@@ -37,8 +37,8 @@ async def test_project(dut):
     butt2=button_sim(dut.clk,dut.butt2)
     butt3=button_sim(dut.clk,dut.butt3)
     butt4=button_sim(dut.clk,dut.butt4)
-    dut.user_project.mi_snake_core.juego.food_x.value=3
-    dut.user_project.mi_snake_core.juego.food_y.value=7
+    #dut.user_project.mi_snake_core.juego.food_x.value=3
+    #dut.user_project.mi_snake_core.juego.food_y.value=7
 
     await ClockCycles(dut.clk, int(7e-3//clkp))
     await ClockCycles(dut.clk, int(500e-3//clkp))
