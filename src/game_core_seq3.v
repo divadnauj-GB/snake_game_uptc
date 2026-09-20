@@ -210,14 +210,14 @@ end
                         (head_dir == ABS_LEFT  && head_x == 4'd0)  ||
                         (head_dir == ABS_RIGHT && head_x == 4'd15)) begin
                         game_over <= 1'b1;
-                        state     <= STATE_IDLE;
+                        state <= STATE_RENDER_ROW;
                     end 
                     // 2. Self-Collision Check via single-cycle lookups
                     else if (snake_rdat=={next_head_y,next_head_x}
                     //||   (next_head_x == tail_x && next_head_y == tail_y)
                     ) begin
                         game_over <= 1'b1;
-                        state     <= STATE_IDLE;
+                        state <= STATE_RENDER_ROW;
                     end 
                     else if ((read_ptr!=(head_ptr-5'd1))&&(~empty)) begin
                         read_ptr <= read_ptr + 5'd1;
@@ -397,7 +397,7 @@ end
 always @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
         food_x <= 3;
-        food_y <= 7;
+        food_y <= 5;
     end else begin
         if(gen_food) begin
             food_x <= rnd_counter[7:4];

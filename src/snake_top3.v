@@ -1,5 +1,5 @@
 module snake_top(
-    input         CLOCK_50,  // Reloj de 50 MHz
+    input         CLOCK_10,  // Reloj de 10 MHz
     
     input  [3:0]  KEY,       // KEY3=Arriba, KEY2=Abajo, KEY1=Derecha, KEY0=Izquierda
     input  [0:0]  SW,        // SW[0] = RESET general del juego
@@ -20,34 +20,55 @@ module snake_top(
     reg [3:0] div_counter;
     reg slow_clk;
     wire set_timer;
+    wire trigger;
     reg [19:0] timer_period;
 
-    
+    localparam CLK_FREQ=10000000;
+    localparam DEBOUNCE_FREQ=100000;
+    localparam DEBOUNCE_TIME=CLK_FREQ/(8*DEBOUNCE_FREQ);
+
+    reg signed [$clog2(DEBOUNCE_TIME):0] debounce_counter;
+
+    assign trigger = (debounce_counter == DEBOUNCE_TIME) ? 1'b1 : 1'b0;
+
+    always @(posedge CLOCK_10 or negedge SW[0]) begin
+        if (!SW[0]) begin
+            debounce_counter <= 0;
+        end else if (trigger == 1'b1) begin
+            debounce_counter <= 0; // Hold the counter value
+        end else begin
+            debounce_counter <= debounce_counter + 1;
+        end
+    end
 
     debounce buttUp (
-        .clk(CLOCK_50),
+        .clk(CLOCK_10),
         .rst_n(SW[0]),
+        .trigger(trigger),
         .input_signal(KEY[3]),
         .clean_signal(clean_key3)
     );
     
     debounce buttDwn (
-        .clk(CLOCK_50),
+        .clk(CLOCK_10),
         .rst_n(SW),
+        .trigger(trigger),
         .input_signal(KEY[2]),
         .clean_signal(clean_key2)
     );
 
     debounce buttR (
-        .clk(CLOCK_50),
+        .clk(CLOCK_10),
         .rst_n(SW[0]),
+        .trigger(trigger),
         .input_signal(KEY[1]),
         .clean_signal(clean_key1)
     );
 
     debounce buttL (
-        .clk(CLOCK_50),
+        .clk(CLOCK_10),
         .rst_n(SW[0]),
+        .trigger(trigger),
         .input_signal(KEY[0]),
         .clean_signal(clean_key0)
     );
@@ -58,7 +79,7 @@ module snake_top(
     // =======================================================
     
 
-    always @(posedge CLOCK_50, negedge SW[0]) begin
+    always @(posedge CLOCK_10, negedge SW[0]) begin
         if(!SW[0]) begin
             div_counter <= 0;
             slow_clk <= 0;
@@ -74,7 +95,7 @@ module snake_top(
 
     reg [19:0] timer_count;
     reg game_tick;
-    always @(posedge CLOCK_50, negedge SW[0]) begin
+    always @(posedge CLOCK_10, negedge SW[0]) begin
         if(!SW[0]) begin
             timer_count <= 0;
             timer_period <= (20'd500000-1);
@@ -106,7 +127,7 @@ module snake_top(
     // =======================================================
     reg [1:0] dir;
 
-    always @(posedge CLOCK_50, negedge SW[0]) begin
+    always @(posedge CLOCK_10, negedge SW[0]) begin
         if (!SW[0]) begin
             dir <= 2'b11; // Al resetear, la serpiente apunta a la derecha
         end else begin
@@ -129,7 +150,7 @@ module snake_top(
     // --- INSTANCIACIÓN DE MÓDULOS ---
     // =======================================================
     game_core juego (
-        .clk(CLOCK_50),
+        .clk(CLOCK_10),
         .rst_n(SW[0]), // Conectado al Switch 0 limpio
         .game_tick(game_tick),
         .user_dir(dir),
@@ -144,7 +165,7 @@ module snake_top(
 
 
     spi_driver pantalla (
-        .clk_50(CLOCK_50),
+        .clk_50(CLOCK_10),
         .reset_n(SW[0]),
         .slow_clk(slow_clk),
         .dynamic_command(current_command),

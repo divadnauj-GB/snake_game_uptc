@@ -6,36 +6,38 @@ module debounce #(
 (
     clk,
     rst_n,
+    trigger,
     input_signal,
     clean_signal
 );
 
 input clk;
 input rst_n;
+input trigger;
 input input_signal;
 output clean_signal;
 
 parameter DEBOUNCE_TIME=CLK_FREQ/(8*DEBOUNCE_FREQ);
 reg signed [$clog2(DEBOUNCE_TIME):0] counter;
 reg [7:0] shift_reg;
-wire trigger;
+//wire trigger;
 wire stable_high;
 wire stable_low;
 reg clean_signal_reg;
 
-assign trigger = (counter == DEBOUNCE_TIME) ? 1'b1 : 1'b0;
-
-
-
-always @(posedge clk or negedge rst_n) begin
-    if (!rst_n) begin
-        counter <= 0;
-    end else if (trigger == 1'b1) begin
-        counter <= 0; // Hold the counter value
-    end else begin
-        counter <= counter + 1;
-    end
-end
+//assign trigger = (counter == DEBOUNCE_TIME) ? 1'b1 : 1'b0;
+//
+//
+//
+//always @(posedge clk or negedge rst_n) begin
+//    if (!rst_n) begin
+//        counter <= 0;
+//    end else if (trigger == 1'b1) begin
+//        counter <= 0; // Hold the counter value
+//    end else begin
+//        counter <= counter + 1;
+//    end
+//end
 
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin

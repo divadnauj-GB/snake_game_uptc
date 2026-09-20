@@ -19,7 +19,7 @@ module tt_um_snake (
   wire [3:0] hex0_full;
 
   snake_top mi_snake_core (
-      .CLOCK_50(clk),
+      .CLOCK_10(clk),
       .SW(rst_n),
       
       .KEY(ui_in[3:0]),          
