@@ -27,7 +27,7 @@ Author: Juan David Guerrero Balaguera, Valeria Molano, Luisa Avendaño
 
 Below you can see the description and hardware implementation (Verilog RTL) of the Snake game. The design is intended to control 4 coupled 8×8 LED matrices, forming a 16×16 pixel game area. The circuit integrates clean reading of mechanical buttons, the complete game logic through a state machine, snake and food position control, a BCD scoring system, and SPI communication to drive the external displays via the MAX7219 driver.
 
-![Figure 1: Hardware architecture and data flow in snake_top.](architecture_diagram.png)
+![Figure 1: Hardware architecture and data flow in snake_top.](architecture_diagram.jpg)
 
 *Figure 1: Hardware architecture and data flow in snake_top.*
 
