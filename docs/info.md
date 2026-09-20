@@ -1,3 +1,18 @@
+## How it works
+
+See the [General System Description](#1-general-system-description) and [Internal Module Description](#2-internal-module-description) sections below for the full technical breakdown of `snake_top`, `debounce`, `game_core`, and `spi_driver`.
+
+## How to test
+
+1. Connect the 4-module MAX7219 LED panel and the 4 direction push-buttons (see the **Pin Specification** table below).
+2. Release reset (`SW[0]` active-low).
+3. Use the direction buttons to guide the snake toward the food. The game ends on collision with a wall or with the snake's own body.
+
+## External hardware
+
+- 4× individual 8×8 MAX7219 LED matrix modules (2×2 grid, `DIN`/`DOUT` daisy-chained, `CLK`/`CS` in parallel).
+- 4× momentary push-buttons (active-low) for direction control.
+
 **TECHNICAL SPECIFICATION OF THE SNAKE GAME**
 
 **Microchip Snake Game (snake_game_uptc)**
