@@ -1,18 +1,4 @@
-## How it works
-
-See the [General System Description](#1-general-system-description) and [Internal Module Description](#2-internal-module-description) sections below for the full technical breakdown of `snake_top`, `debounce`, `game_core`, and `spi_driver`.
-
-## How to test
-
-1. Connect the 4-module MAX7219 LED panel and the 4 direction push-buttons (see the **Pin Specification** table below).
-2. Release reset (`SW[0]` active-low).
-3. Use the direction buttons to guide the snake toward the food. The game ends on collision with a wall or with the snake's own body.
-
-## External hardware
-
-- 4× individual 8×8 MAX7219 LED matrix modules (2×2 grid, `DIN`/`DOUT` daisy-chained, `CLK`/`CS` in parallel).
-- 4× momentary push-buttons (active-low) for direction control.
-# TECHNICAL SPECIFICATION OF THE SNAKE GAME
+**TECHNICAL SPECIFICATION OF THE SNAKE GAME**
 
 **Microchip Snake Game (snake_game_uptc)**
 Author: Juan David Guerrero Balaguera, Valeria Molano, Luisa Avendaño
@@ -25,9 +11,9 @@ Author: Juan David Guerrero Balaguera, Valeria Molano, Luisa Avendaño
 ## 1. General System Description
 
 Below you can see the description and hardware implementation (Verilog RTL) of the Snake game. The design is intended to control 4 coupled 8×8 LED matrices, forming a 16×16 pixel game area. The circuit integrates clean reading of mechanical buttons, the complete game logic through a state machine, snake and food position control, a BCD scoring system, and SPI communication to drive the external displays via the MAX7219 driver.
+
 ![Figure 1: Hardware architecture and data flow in snake_top.](architecture_diagram.png)
 
-*Figure 1: Hardware architecture and data flow in snake_top.*
 *Figure 1: Hardware architecture and data flow in snake_top.*
 
 ## 2. Internal Module Description
