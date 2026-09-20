@@ -212,6 +212,8 @@ end
                         (head_dir == ABS_LEFT  && head_x == 4'd0)  ||
                         (head_dir == ABS_RIGHT && head_x == 4'd15)) begin
                         game_over <= 1'b1;
+                        r_row <= 4'd0;
+                        r_col <= 4'd0;
                         state <= STATE_RENDER_ROW;
                     end 
                     // 2. Self-Collision Check via single-cycle lookups
@@ -219,6 +221,8 @@ end
                     //||   (next_head_x == tail_x && next_head_y == tail_y)
                     ) begin
                         game_over <= 1'b1;
+                        r_row <= 4'd0;
+                        r_col <= 4'd0;
                         state <= STATE_RENDER_ROW;
                     end 
                     else if ((read_ptr!=(head_ptr-5'd1))&&(~empty)) begin
@@ -245,7 +249,7 @@ end
                     head_y <= next_head_y;
                     if (eating_food) begin
                         r_row <= 4'd0;
-                        r_col <= 0;
+                        r_col <= 4'd0;
                         rd_en <= 0;
                         gen_food <= 1;
                         read_ptr <= tail_ptr_bk;
@@ -254,7 +258,7 @@ end
                         // Clear the cell the tail is currently leaving
                         read_ptr <= tail_ptr_bk;
                         r_row <= 4'd0;
-                        r_col <= 0;
+                        r_col <= 4'd0;
                         gen_food <= 0;
                         if (!full) begin
                             rd_en <= 1;
@@ -286,10 +290,10 @@ end
                         if(r_col==15) begin
                             if (((read_ptr)!=(head_ptr-5'd1))&&(~empty)) begin
                                 read_ptr <= read_ptr + 5'd1;
-                                r_col <= 0;
+                                r_col <= 4'd0;
                                 state <= STATE_RENDER_ROW;
                             end else begin
-                                r_col <= 0;
+                                r_col <= 4'd0;
                                 state <= STATE_RENDER_TX;
                             end
                         end else begin
@@ -321,7 +325,7 @@ end
                                 row_accum <= 0;
                                 state <= STATE_RENDER_ROW;
                                 read_ptr <= tail_ptr_bk;
-                                r_col <= 0;
+                                r_col <= 4'd0;
                             end
                             
                             matrix_valid <= 1'b1;
@@ -356,7 +360,7 @@ end
                             row_accum <= 0;
                             state <= STATE_RENDER_ROW;
                             read_ptr <= tail_ptr_bk;
-                            r_col <= 0;
+                            r_col <= 4'd0;
                         end else begin
                             delay_counter <= delay_counter + 4'd1 ;
                         end
